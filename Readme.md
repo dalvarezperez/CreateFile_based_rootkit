@@ -26,7 +26,7 @@ I decided to publish the code.
 [Mini DDK dependencie](./miniddk.h)  
 
 
-# Debugger session  
+# Debugging session  
 
 #### 1. Kernel32!CreateFileW calls to KERNELBASE!CreateFileInternal  
 771de463 8364240c00      and     dword ptr [esp+0Ch],0  
