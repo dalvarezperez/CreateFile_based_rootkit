@@ -1,6 +1,6 @@
 # Bug explaination  
 
-**NtCreateFile** can create and access directories using names like " ." and so on but **CreateFile** can't do it. It replaces it by " " which is an absolutely different directory. See "Types of DOS Path" section of https://googleprojectzero.blogspot.com/2016/02/ for a better detailed information.  
+**NtCreateFile** can create and access directories using names like " ." but **CreateFile** can't do it. It replaces it by " " which is an absolutely different directory. See "Types of DOS Path" section of https://googleprojectzero.blogspot.com/2016/02/ for a better detailed information.  
 See the following screenshot taken when accessing to " ." using **explorer.exe**.  
 
 ![alt text](screenshots/screenshot1.png "Accessing to ' .' from explorer.exe")
