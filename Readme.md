@@ -24,7 +24,8 @@ I decided to publish the code.
 
 [PoC file](./PoC.c)  
 [Mini DDK dependency](./miniddk.h)  
-
+  
+**Note***: If you are testing the PoC and wants to remove the resulting "C:\ .\" directory, a simple way to do it is by using the git console: <https://git-scm.com/download/win> 
 
 # Debugging session  
 
