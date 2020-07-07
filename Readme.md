@@ -23,7 +23,7 @@ I decided to publish the code.
 # PoC  
 
 [PoC file](./PoC.c)  
-[Mini DDK dependencie](./miniddk.h)  
+[Mini DDK dependency](./miniddk.h)  
 
 
 # Debugging session  
