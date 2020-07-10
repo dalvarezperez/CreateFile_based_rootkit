@@ -1,6 +1,7 @@
 # Bug explaination  
 
-**NtCreateFile** can create and access directories using names like " ." but **CreateFile** can't do it. It replaces it by " " which is an absolutely different directory. See "Types of DOS Path" section of https://googleprojectzero.blogspot.com/2016/02/ for a better detailed information.  
+**NtCreateFile** can create and access directories using names like " ." but **CreateFile** can't do it. Following the same example, it changes it to " " which is an absolutely different directory.  
+It is done by KERNELBASE!_imp__RtlDosPathNameToRelativeNtPathName_U_WithStatus which "Remove any trailing spaces or dots for the last path element, assuming that it isn’t a single or double dot name" as explained here: "Types of DOS Path" section of https://googleprojectzero.blogspot.com/2016/02/  
 See the following screenshot taken when accessing to " ." using **explorer.exe**.  
 
 ![alt text](screenshots/screenshot1.png "Accessing to ' .' from explorer.exe")
@@ -25,7 +26,7 @@ I decided to publish the code.
 [PoC file](./PoC.c)  
 [Mini DDK dependency](./miniddk.h)  
   
-**Note***: If you are testing the PoC and wants to remove the resulting "C:\ .\" directory, a simple way to do it is by using the git console: <https://git-scm.com/download/win> 
+**Note***: If you are testing the PoC and wants to remove the resulting "C:\ .\" directory, a simple way to do it is by using the GIT console: <https://git-scm.com/download/win> 
 
 # Debugging session  
 
@@ -62,7 +63,6 @@ KERNELBASE!CreateFileInternal:
   
   
 #### 3. RtlInitUnicodeStringEx works well putting u"C:\ .\my_hidden_malware.exe" into [esp+34]    
-Llama a _imp__RtlInitUnicodeStringEx....  
 771de4fe c744241401000000 mov     dword ptr [esp+14h],1  
 771de506 53              push    ebx                    ; Source  
 771de507 8d442434        lea     eax,[esp+34h]  
@@ -79,12 +79,12 @@ Llama a _imp__RtlInitUnicodeStringEx....
 771de54c 8d442438        lea     eax,[esp+38h]  
 771de550 50              push    eax  
 **771de551 53              push    ebx                   ; "C:\ .\my_hidden_malware.exe"**  
-771de552 ff1538b92a77    call    dword ptr [KERNELBASE!_imp__RtlDosPathNameToRelativeNtPathName_U_WithStatus (772ab938)] ds:002b:772ab938={ntdll_77d00000!RtlDosPathNameToRelativeNtPathName_U_WithStatus (77d412f0)}  
+**771de552 ff1538b92a77    call    dword ptr [KERNELBASE!_imp__RtlDosPathNameToRelativeNtPathName_U_WithStatus (772ab938)] ds:002b:772ab938={ntdll_77d00000!RtlDosPathNameToRelativeNtPathName_U_WithStatus (77d412f0)}**  
 
   
 
 #### 5. And then, the vulnerability happens.  
-771de552 ff1538b92a77    call    dword ptr [KERNELBASE!_imp__RtlDosPathNameToRelativeNtPathName_U_WithStatus (772ab938)]  
+**771de552 ff1538b92a77    call    dword ptr [KERNELBASE!_imp__RtlDosPathNameToRelativeNtPathName_U_WithStatus (772ab938)]**  
 771de558 85c0            test    eax,eax  
 771de55a 0f88f61e0300    js      KERNELBASE!CreateFileInternal+0x31fb6 (77210456)  
 **771de560 8b442434        mov     eax,dword ptr [esp+34h] ; "\??\C:\ \my_hidden_malware.exe"**  
