@@ -18,7 +18,9 @@ See the following screenshot taken when accessing to " ." using **explorer.exe**
 Microsoft will not fix this issue because of the following reason:  
 "This is a known portion of the file structure and is detailed online. Beyond that, an attacker would already need to have compromised a machine to make use of this".  
 
-I decided to publish the code.  
+**I decided to publish the code.**  
+
+**UPDATE:** I asked to Microsoft for the online documentation and they, kindly, reply to me with this link (https://docs.microsoft.com/en-us/windows/win32/fileio/naming-a-file?redirectedfrom=MSDN) and referring to this phrase: "Do not end a file or directory name with a space or a period. Although the underlying file system may support such names, the Windows shell and user interface does not."  
 
 
 # PoC  
