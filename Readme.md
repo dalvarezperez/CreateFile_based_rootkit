@@ -21,7 +21,7 @@ Microsoft will not fix this issue because of the following reason:
 Even though this behavior is well-documented online, it resembles rootkit techniques and can be exploited without installing anything—for example, simply plugging in a pendrive with a malicious file structure exploiting this vulnerability.  
 **I decided to publish the code.**  
 
-**UPDATE:** I asked to Microsoft for the online documentation and they, kindly, reply to me with this link (https://docs.microsoft.com/en-us/windows/win32/fileio/naming-a-file?redirectedfrom=MSDN) and referring to this phrase: "Do not end a file or directory name with a space or a period. Although the underlying file system may support such names, the Windows shell and user interface does not."  
+**UPDATE:** I asked to Microsoft for the online documentation and they, kindly, reply to me with [this link](https://docs.microsoft.com/en-us/windows/win32/fileio/naming-a-file?redirectedfrom=MSDN) and referring to this phrase: "Do not end a file or directory name with a space or a period. Although the underlying file system may support such names, the Windows shell and user interface does not."  
 
 
 # PoC  
