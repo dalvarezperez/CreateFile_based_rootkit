@@ -1,16 +1,16 @@
 # Bug explaination  
 
-**NtCreateFile** can create and access directories using names like " ." but **CreateFile** can't do it. Following the same example, it changes it to " " which is an absolutely different directory.  
-It is done by KERNELBASE!_imp__RtlDosPathNameToRelativeNtPathName_U_WithStatus which "Remove any trailing spaces or dots for the last path element, assuming that it isn’t a single or double dot name" as explained here: "Types of DOS Path" section of https://googleprojectzero.blogspot.com/2016/02/  
-See the following screenshot taken when accessing to " ." using **explorer.exe**.  
+**NtCreateFile** can create and access directories with names like " ." whereas **CreateFile** cannot. In such cases, **CreateFile** modifies the name to " " refers to an entirely different directory.  
+This behavior is caused by KERNELBASE!_imp__RtlDosPathNameToRelativeNtPathName_U_WithStatus which, as described in the ["Types of DOS Path"](https://googleprojectzero.blogspot.com/2016/02/) section, "Remove any trailing spaces or dots for the last path element, assuming that it isn’t a single or double dot name".  
+The screenshot below demonstrates this behavior when accessing " ." using **explorer.exe**.  
 
 ![alt text](screenshots/screenshot1.png "Accessing to ' .' from explorer.exe")
 
 
 # Implications  
 
-1. You can hide malware from antivirus agents which uses CreateFile to access files and directories.  
-2. You can also hide malware from users who uses programs like **explorer.exe** and **cmd.exe** which, finally, relies on CreateFile.
+1. Malware can be hidden from antivirus agents that use **CreateFile** to access files and directories.  
+2. Additionally, malware can remain hidden from users who rely on programs like **explorer.exe** and **cmd.exe**, as these ultimately depend on **CreateFile**.
 
 
 # Disclosure  
@@ -18,6 +18,7 @@ See the following screenshot taken when accessing to " ." using **explorer.exe**
 Microsoft will not fix this issue because of the following reason:  
 "This is a known portion of the file structure and is detailed online. Beyond that, an attacker would already need to have compromised a machine to make use of this".  
 
+Even though this behavior is well-documented online, it resembles rootkit techniques and can be exploited without installing anything—for example, simply plugging in a pendrive with a malicious file structure exploiting this vulnerability.  
 **I decided to publish the code.**  
 
 **UPDATE:** I asked to Microsoft for the online documentation and they, kindly, reply to me with this link (https://docs.microsoft.com/en-us/windows/win32/fileio/naming-a-file?redirectedfrom=MSDN) and referring to this phrase: "Do not end a file or directory name with a space or a period. Although the underlying file system may support such names, the Windows shell and user interface does not."  
