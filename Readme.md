@@ -20,7 +20,8 @@ Although this behavior is documented online, it resembles rootkit techniques and
 **I have decided to publish the code.**
 
 **UPDATE:** I asked Microsoft for the relevant documentation and they kindly replied with [this link](https://docs.microsoft.com/en-us/windows/win32/fileio/naming-a-file?redirectedfrom=MSDN), referencing the following statement:  
-> “Do not end a file or directory name with a space or a period. Although the underlying file system may support such names, the Windows shell and user interface do not.”  
+> “Do not end a file or directory name with a space or a period. Although the underlying file system may support such names, the Windows shell and user interface do not.”
+
 However, I do not believe that a problem ceases to be a problem simply because it is documented. Moreover, an attacker does not need prior access to the machine to exploit this behavior, as it can be triggered using an external device such as a USB drive.
 
 # PoC
